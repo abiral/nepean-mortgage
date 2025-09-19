@@ -1,0 +1,58 @@
+.about-section {
+    padding: 2rem 0 0;
+    background: white;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-text h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.about-text p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.about-btn {
+    background: #f39c12;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.about-btn:hover {
+    background: #e67e22;
+}
+
+.about-visual {
+    position: relative;
+}
+
+.about-visual img {
+    width: 400px;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: -7px;
+    max-width: 100%;
+}
+
+
+
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,233 @@
+/* Our Process Section */
+.process-section {
+    padding: 5rem 0;
+    background: #f2f2f2;
+}
+
+.process-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.process-header h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.process-header p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.process-steps {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.step-number {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.step-icon {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #076e95 0%, #229cc9 100%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 15px rgba(7, 110, 149, 0.3);
+}
+
+.step-count {
+    background: #f39c12;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.step-content {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.step-content:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.step-content::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 30px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #f8f9fa;
+}
+
+.step-content h3 {
+    color: #2c3e50;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.step-content p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.step-connector {
+    position: absolute;
+    left: 40px;
+    top: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.connector-line {
+    width: 2px;
+    height: 60px;
+    background: linear-gradient(to bottom, #229cc9, #f39c12);
+    margin-bottom: 10px;
+}
+
+.connector-arrow {
+    color: #f39c12;
+    font-size: 1.5rem;
+    font-weight: bold;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+.process-cta {
+    text-align: center;
+    margin-top: 4rem;
+    padding: 3rem;
+    background: linear-gradient(135deg, #076e95 0%, #229cc9 100%);
+    border-radius: 20px;
+    color: white;
+}
+
+.process-cta h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.process-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.process-btn {
+    background: #f39c12;
+    color: white;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+}
+
+.process-btn:hover {
+    background: #e67e22;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+}
+
+/* Responsive Design for Process Section */
+@media (max-width: 768px) {
+    .process-header h2 {
+        font-size: 2rem;
+    }
+
+    .process-step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .step-content::before {
+        display: none;
+    }
+
+    .step-connector {
+        position: static;
+        margin: 1rem 0;
+    }
+
+    .connector-line {
+        height: 30px;
+    }
+
+    .process-cta {
+        padding: 2rem 1rem;
+    }
+
+    .process-cta h3 {
+        font-size: 1.5rem;
+    }
+}
