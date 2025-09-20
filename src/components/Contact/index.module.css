@@ -1,0 +1,305 @@
+/* Contact Form Styles */
+.contactForm {
+    padding: 0;
+    max-width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.formGroup {
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid #e8ecef;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    background: #fafbfc;
+    color: #2c3e50;
+}
+
+.formGroup input::placeholder,
+.formGroup textarea::placeholder {
+    color: #8b9dc3;
+    font-size: 15px;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: #076e95;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(7, 110, 149, 0.1);
+    transform: translateY(-1px);
+}
+
+.formGroup input:disabled,
+.formGroup textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f5f5f5;
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+/* Form Actions */
+.formActions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #e8ecef;
+}
+
+/* Button Styles */
+.btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    position: relative;
+    overflow: hidden;
+    font-family: inherit;
+    letter-spacing: 0.5px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btnPrimary {
+    background: linear-gradient(135deg, #076e95 0%, #229cc9 100%);
+    color: white;
+    border: 2px solid transparent;
+}
+
+.btnPrimary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #065a7a 0%, #1e8bb0 100%);
+    box-shadow: 0 8px 25px rgba(7, 110, 149, 0.3);
+}
+
+.btnSecondary {
+    background: transparent;
+    color: #6c757d;
+    border: 2px solid #e8ecef;
+}
+
+.btnSecondary:hover:not(:disabled) {
+    background: #f8f9fa;
+    border-color: #d1d9e0;
+    color: #495057;
+}
+
+/* Form Validation Styles */
+.formGroup input:invalid:not(:focus):not(:placeholder-shown),
+.formGroup textarea:invalid:not(:focus):not(:placeholder-shown) {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.formGroup input:valid:not(:focus):not(:placeholder-shown),
+.formGroup textarea:valid:not(:focus):not(:placeholder-shown) {
+    border-color: #28a745;
+    background: #f8fff9;
+}
+
+/* Required Field Indicator */
+.formGroup label::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.formGroup:has(input:not([required])) label::after,
+.formGroup:has(textarea:not([required])) label::after {
+    content: "";
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contactForm {
+        padding: 0;
+    }
+
+    .formActions {
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .btn {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .formGroup input,
+    .formGroup textarea {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+}
+
+/* Animation for form appearance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contactForm {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.formGroup {
+    animation: fadeInUp 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.formGroup:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.formGroup:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.formGroup:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.formGroup:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.formActions {
+    animation-delay: 0.5s;
+}
+
+/* 
+Loading Spinner */
+.loadingContent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Success Message */
+.successMessage {
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.successIcon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    animation: scaleIn 0.5s ease-out 0.2s both;
+}
+
+.successMessage h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.successMessage p {
+    color: #6c757d;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments for form row */
+@media (max-width: 768px) {
+    .formRow {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .formRow .formGroup {
+        margin-bottom: 24px;
+    }
+}

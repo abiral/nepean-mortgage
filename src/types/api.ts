@@ -16,13 +16,32 @@ interface IAbout {
   profile: string;
 }
 
-interface IFAQ {
+interface IFAQItems {
   key: string;
   title: string;
   description: string;
 }
 
+interface IFAQ {
+  title: string;
+  description: string;
+  items: IFAQItems[];
+}
+
+interface IProcessItems {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
 interface IProcess {
+  title: string;
+  description: string;
+  items: IProcessItems[];
+}
+
+interface IServicesItems {
   id: string;
   title: string;
   description: string;
@@ -30,32 +49,58 @@ interface IProcess {
 }
 
 interface IServices {
-  id: string;
   title: string;
-  description: string;
-  icon: string;
+  items: IServicesItems[];
 }
 
-interface IBankingPartners {
+interface IBankingPartnersItems {
   id: string;
   name: string;
   logo: string;
 }
 
-export interface ApiResponse {
+interface IBankingPartners {
+  title: string;
+  items: IBankingPartnersItems[];
+}
+
+interface IWhyUs {
+  title: string;
+  description: string;
+  items: string[];
+}
+
+interface IFooter {
+  info: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+  copyright: string;
+}
+
+export interface ApiResponseData {
   name: string;
   siteTitle: string;
   assets: IAssets;
   hero_section: IHeroSection;
   about: IAbout;
-  faq: IFAQ[];
-  process: IProcess[];
-  services: IServices[];
-  banking_partners: IBankingPartners[];
+  faq: IFAQ;
+  process: IProcess;
+  services: IServices;
+  banking_partners: IBankingPartners;
+  why_us: IWhyUs;
+  footer: IFooter;
+}
+
+export interface ApiResponse {
+  status: string;
+  message: string;
+  data: ApiResponseData;
 }
 
 export interface ApiContextType {
-  data: ApiResponse | null;
+  data: ApiResponseData | null;
   loading: boolean;
   error: string | null;
   refreshData: () => void;

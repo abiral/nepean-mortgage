@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import type { ApiResponse } from "../types/api";
+import type { ApiResponse, ApiResponseData } from "../types/api";
 
-const API_URL = "http://localhost/mortgage/index.php";
+const API_HOST =
+  import.meta.env.VITE_API_HOST ||
+  "https://data.stage.nepeanmortgage.com.au/api";
 const STORAGE_KEY = "mortgage_api_data";
 const REFETCH_INTERVAL = 5;
 
 export const useApiData = () => {
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [data, setData] = useState<ApiResponseData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,15 +17,15 @@ export const useApiData = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(API_URL);
+      const response = await fetch(`${API_HOST}/feeds`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const apiData: ApiResponse = await response.json();
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData));
-      setData(apiData);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData.data));
+      setData(apiData.data);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch data";

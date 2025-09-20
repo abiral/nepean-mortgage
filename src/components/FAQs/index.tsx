@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useApi } from "../../hooks/useApi";
 import "./index.css";
 
-const FAQ = () => {
+const FAQ = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
   const { data } = useApi();
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
@@ -14,15 +14,12 @@ const FAQ = () => {
     <section className="faq-section" id="faq">
       <div className="container">
         <div className="faq-header">
-          <h2>Frequently Asked Questions</h2>
-          <p>
-            Find answers to common questions about our mortgage services and the
-            home buying process.
-          </p>
+          <h2>{data?.faq.title}</h2>
+          <p>{data?.faq.description}</p>
         </div>
 
         <div className="faq-content">
-          {data?.faq.map((item) => (
+          {data?.faq.items.map((item) => (
             <div
               key={item.key}
               className={`faq-item ${activeItem === item.key ? "active" : ""}`}
@@ -49,8 +46,11 @@ const FAQ = () => {
 
         <div className="faq-footer">
           <p>
-            Still have questions? <a href="#contact">Contact us</a> for
-            personalized assistance.
+            Still have questions?{" "}
+            <a href="#" onClick={() => onContactUsClicked()}>
+              Contact us
+            </a>{" "}
+            for personalized assistance.
           </p>
         </div>
       </div>

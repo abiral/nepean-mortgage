@@ -6,10 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:local": "tsc -b && vite build --mode local",
+    "build:stage": "tsc -b && vite build --mode stage",
+    "build:prod": "tsc -b && vite build --mode prod",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fancyapps/ui": "^6.0.32",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.8.2"
