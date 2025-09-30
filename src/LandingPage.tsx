@@ -1,9 +1,9 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useContactModal } from "./hooks/useContactModal";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
+import SEOHead from "./components/SEO/SEOHead";
 const About = lazy(() => import("./components/About"));
 const OurProcess = lazy(() => import("./components/OurProcess"));
 const OurServices = lazy(() => import("./components/OurServices"));
@@ -35,9 +35,7 @@ function LandingPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Home | Nepean Mortgage</title>
-      </Helmet>
+      <SEOHead pageKey="home" includeLocalBusiness={true} includeFAQ={true} />
       <Header onContactUsClicked={() => openContactForm()} />
       <Hero />
       <Suspense fallback={<Preloader />}>
