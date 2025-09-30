@@ -2,6 +2,21 @@ import { useApi } from "../hooks/useApi";
 
 const Hero = () => {
   const { data } = useApi();
+
+  if (!data) {
+    return (
+      <section className="hero" id="home">
+        <div className="container">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1>Loading...</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="hero" id="home">
       <div className="container">

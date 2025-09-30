@@ -14,8 +14,11 @@
   },
   "dependencies": {
     "@fancyapps/ui": "^6.0.32",
+    "@hcaptcha/react-hcaptcha": "^1.12.1",
+    "framer-motion": "^12.23.22",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.8.2"
   },
   "devDependencies": {

@@ -4,8 +4,16 @@ import type { ApiContextType } from "../types/api";
 
 export const useApi = (): ApiContextType => {
   const context = useContext(ApiContext);
-  if (context === undefined) {
-    throw new Error("useApi must be used within an ApiProvider");
+  // Since we now have a default context value, this should never be undefined
+  // But we'll keep a safety check just in case
+  if (!context) {
+    console.error("useApi: Context is null or undefined");
+    return {
+      data: null,
+      loading: true,
+      error: "Context not available",
+      refreshData: () => {},
+    };
   }
   return context;
 };

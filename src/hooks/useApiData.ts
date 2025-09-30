@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import type { ApiResponse, ApiResponseData } from "../types/api";
+import { FeedService } from "../services";
 
-const API_HOST =
-  import.meta.env.VITE_API_HOST ||
-  "https://data.stage.nepeanmortgage.com.au/api";
 const STORAGE_KEY = "mortgage_api_data";
 const REFETCH_INTERVAL = 5;
 
@@ -17,12 +15,9 @@ export const useApiData = () => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_HOST}/feeds`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const apiData: ApiResponse = await response.json();
+      console.log("Fetching data from API...");
+      const apiData: ApiResponse = await FeedService.getFeeds();
+      console.log("API data received:", apiData);
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData.data));
       setData(apiData.data);
@@ -31,6 +26,11 @@ export const useApiData = () => {
         err instanceof Error ? err.message : "Failed to fetch data";
       setError(errorMessage);
       console.error("API fetch error:", err);
+      console.error("Error details:", {
+        message: errorMessage,
+        stack: err instanceof Error ? err.stack : undefined,
+        name: err instanceof Error ? err.name : undefined,
+      });
     } finally {
       setLoading(false);
     }
@@ -40,7 +40,7 @@ export const useApiData = () => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
-        const parsedData: ApiResponse = JSON.parse(stored);
+        const parsedData: ApiResponseData = JSON.parse(stored);
         setData(parsedData);
         return true;
       }

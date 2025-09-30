@@ -1,17 +1,25 @@
+import { Link } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
+import { useCalculatorModal } from "../../hooks/useCalculatorModal";
+import { CalculatorLists } from "../Calculators/types";
 import "./index.css";
 const Footer = () => {
   const { data } = useApi();
+  const { openCalculator } = useCalculatorModal();
+
+  if (!data) {
+    return null; // or a loading skeleton
+  }
+
   return (
     <footer className="footer" id="contact">
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
             <div className="footer-logo">
-              <img
-                src="/logo-inverted-nepean-mortgage.png"
-                alt="Nepean Mortgage"
-              />
+              <Link to="/">
+                <img src={data?.assets.logo_inverted} alt={data?.site_title} />
+              </Link>
             </div>
             <p>{data?.footer.info}</p>
           </div>
@@ -19,16 +27,13 @@ const Footer = () => {
             <h3>Quick Links</h3>
             <ul>
               <li>
-                <a href="#home">Home</a>
+                <a href="/privacy-policy">Privacy Policy</a>
               </li>
               <li>
-                <a href="#about">About</a>
+                <a href="/website-policy">Website Policy</a>
               </li>
               <li>
-                <a href="#process">Our Process</a>
-              </li>
-              <li>
-                <a href="#services">Services</a>
+                <a href="/feedback-and-complaints">Feedback And Complaints</a>
               </li>
             </ul>
           </div>
@@ -36,16 +41,48 @@ const Footer = () => {
             <h3>Calculators</h3>
             <ul>
               <li>
-                <a href="#">Calculator 1</a>
+                <button
+                  onClick={() => openCalculator(CalculatorLists.REPAYMENT)}
+                  className="footer-link-button"
+                >
+                  Repayment Calculator
+                </button>
               </li>
               <li>
-                <a href="#">Calculator 2</a>
+                <button
+                  onClick={() =>
+                    openCalculator(CalculatorLists.EXTRA_REPAYMENT)
+                  }
+                  className="footer-link-button"
+                >
+                  Extra Repayment Calculator
+                </button>
               </li>
               <li>
-                <a href="#">Calculator 3</a>
+                <button
+                  onClick={() =>
+                    openCalculator(CalculatorLists.MORTGAGE_OFFSET)
+                  }
+                  className="footer-link-button"
+                >
+                  Mortgage Offset Calculator
+                </button>
               </li>
               <li>
-                <a href="#">Calculator 4</a>
+                <button
+                  onClick={() => openCalculator(CalculatorLists.SPLIT_LOAN)}
+                  className="footer-link-button"
+                >
+                  Split Loan Calculator
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => openCalculator(CalculatorLists.CAR_LOAN)}
+                  className="footer-link-button"
+                >
+                  Car Loan Calculator
+                </button>
               </li>
             </ul>
           </div>
@@ -68,11 +105,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>
-            Authorized Credit Representatives (572369) , is authorized credit
-            representatives of BLSSA Pty Ltd ACN 117 651 760 Australian Credit
-            Licence.
-          </p>
+          <p>{data?.footer.copyright}</p>
           <p className="crafted-by">
             Crafted by{" "}
             <a href="https://abrlnp.me" target="_blank">

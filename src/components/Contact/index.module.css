@@ -292,6 +292,42 @@ Loading Spinner */
     }
 }
 
+/* Error Message */
+.errorMessage {
+    text-align: center;
+    padding: 40px 20px;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.errorIcon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+    animation: scaleIn 0.5s ease-out 0.2s both;
+}
+
+.errorMessage h3 {
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.errorMessage p {
+    color: #6c757d;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
 /* Responsive adjustments for form row */
 @media (max-width: 768px) {
     .formRow {

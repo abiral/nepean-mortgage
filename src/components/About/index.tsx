@@ -3,6 +3,11 @@ import "./index.css";
 
 const About = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
   const { data } = useApi();
+
+  if (!data) {
+    return null; // or a loading skeleton
+  }
+
   return (
     <section className="about-section" id="about">
       <div className="container">

@@ -6,6 +6,10 @@ const FAQ = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
   const { data } = useApi();
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
+  if (!data) {
+    return null;
+  }
+
   const toggleItem = (key: string) => {
     setActiveItem(activeItem === key ? null : key);
   };
@@ -46,9 +50,9 @@ const FAQ = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
 
         <div className="faq-footer">
           <p>
-            Still have questions?{" "}
-            <a href="#" onClick={() => onContactUsClicked()}>
-              Contact us
+            We're here to help. Please{" "}
+            <a href="javasrcipt:void()" onClick={() => onContactUsClicked()}>
+              contact us
             </a>{" "}
             for personalized assistance.
           </p>

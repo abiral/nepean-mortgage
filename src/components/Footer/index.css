@@ -5,7 +5,12 @@
 }
 
 .footer-logo img {
-    width: 100px;
+    width: 120px;
+}
+
+.footer-logo a {
+    display: block;
+    text-decoration: none;
 }
 
 .footer-content {
@@ -35,6 +40,23 @@
 }
 
 .footer-section ul li a:hover {
+    color: #f39c12;
+}
+
+.footer-link-button {
+    background: none;
+    border: none;
+    color: #bdc3c7;
+    text-decoration: none;
+    transition: color 0.3s;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    text-align: left;
+}
+
+.footer-link-button:hover {
     color: #f39c12;
 }
 

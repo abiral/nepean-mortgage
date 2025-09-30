@@ -4,6 +4,11 @@ import "./index.css";
 
 const WhyUs = () => {
   const { data } = useApi();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section className="why-us-section" id="why-us">
       <div className="container">

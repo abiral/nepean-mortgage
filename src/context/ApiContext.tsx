@@ -9,5 +9,10 @@ interface ApiProviderProps {
 export const ApiProvider: React.FC<ApiProviderProps> = ({ children }) => {
   const apiData = useApiData();
 
-  return <ApiContext.Provider value={apiData}>{children}</ApiContext.Provider>;
+  // Ensure context is always available, even during loading states
+  const contextValue = React.useMemo(() => apiData, [apiData]);
+
+  return (
+    <ApiContext.Provider value={contextValue}>{children}</ApiContext.Provider>
+  );
 };

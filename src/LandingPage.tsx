@@ -1,4 +1,6 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
+import { useContactModal } from "./hooks/useContactModal";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
@@ -9,36 +11,53 @@ const PartnerBanks = lazy(() => import("./components/PartnerBanks"));
 const WhyUs = lazy(() => import("./components/WhyUs"));
 const FAQs = lazy(() => import("./components/FAQs"));
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
-import Contact from "./components/Contact";
+import Preloader from "./components/Shared/Preloader";
 
 function LandingPage() {
-  const [isContactFormOpen, openContactForm] = useState<boolean>(false);
+  const { openContactForm } = useContactModal();
+
+  // Handle hash navigation when coming from other pages
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      // Small delay to ensure components are loaded
+      setTimeout(() => {
+        const element = document.getElementById(hash.substring(1));
+        if (element) {
+          element.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
   return (
     <>
-      <Header onContactUsClicked={() => openContactForm(true)} />
+      <Helmet>
+        <title>Home | Nepean Mortgage</title>
+      </Helmet>
+      <Header onContactUsClicked={() => openContactForm()} />
       <Hero />
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Preloader />}>
         <OurProcess />
       </Suspense>
-      <Suspense fallback={<></>}>
-        <About onContactUsClicked={() => openContactForm(true)} />
+      <Suspense fallback={<Preloader />}>
+        <About onContactUsClicked={() => openContactForm()} />
       </Suspense>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Preloader />}>
         <OurServices />
       </Suspense>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Preloader />}>
         <PartnerBanks />
       </Suspense>
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Preloader />}>
         <WhyUs />
       </Suspense>
-      <Suspense fallback={<></>}>
-        <FAQs onContactUsClicked={() => openContactForm(true)} />
+      <Suspense fallback={<Preloader />}>
+        <FAQs onContactUsClicked={() => openContactForm()} />
       </Suspense>
-      <Contact
-        isOpen={isContactFormOpen}
-        onClose={() => openContactForm(false)}
-      />
       <Footer />
     </>
   );

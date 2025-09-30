@@ -4,6 +4,11 @@ import "./index.css";
 
 const OurServices = () => {
   const { data } = useApi();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section className="services-section" id="services">
       <div className="container">

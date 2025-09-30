@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import Modal from "./../Shared/Modal";
+import { useContactForm } from "../../hooks/useContactForm";
+import type { IContactFormData as IServiceContactFormData } from "../../services";
 import styles from "./index.module.css";
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  phone: string;
+interface IContactFormData extends IServiceContactFormData {
   message: string;
 }
 
@@ -15,24 +15,37 @@ interface ContactProps {
 }
 
 const Contact = ({ isOpen, onClose }: ContactProps) => {
-  const [formData, setFormData] = useState<ContactFormData>({
+  const [formData, setFormData] = useState<IContactFormData>({
     name: "",
     email: "",
     phone: "",
     message: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [isSubmissionAllowed, allowSubmission] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
 
-  // Reset form and success state when modal opens
+  const { isSubmitting, isSuccess, error, submitForm, resetForm } =
+    useContactForm();
+
   useEffect(() => {
     if (isOpen) {
       setFormData({ name: "", email: "", phone: "", message: "" });
-      setShowSuccess(false);
-      setIsSubmitting(false);
+      allowSubmission(false);
+      setToken(null);
+      resetForm();
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
+
+  useEffect(() => {
+    if (token) {
+      allowSubmission(true);
+    }
+  }, [token]);
+
+  const handleVerificationSuccess = (hToken: string) => {
+    setToken(hToken);
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -48,37 +61,30 @@ const Contact = ({ isOpen, onClose }: ContactProps) => {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log("Form submit handler called"); // Debug log
-
     if (isSubmitting) {
-      console.log("Already submitting, ignoring"); // Debug log
       return;
     }
 
-    setIsSubmitting(true);
+    if (!formData.name.trim() || !formData.email.trim()) {
+      return;
+    }
 
-    try {
-      // TODO: Implement your form submission logic here
-      console.log("Form submitted:", formData);
+    await submitForm({
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      message: formData.message,
+      hToken: token || undefined,
+    });
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Show success message
-      setShowSuccess(true);
-
-      // Auto close after 2 seconds
+    if (isSuccess) {
       setTimeout(() => {
         onClose();
-      }, 2000);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
+      }, 3000);
     }
   };
 
-  if (showSuccess) {
+  if (isSuccess) {
     return (
       <Modal open={isOpen} onClose={onClose} title="Message Sent!" width={500}>
         <div className={styles.successMessage}>
@@ -93,11 +99,32 @@ const Contact = ({ isOpen, onClose }: ContactProps) => {
     );
   }
 
+  if (error) {
+    return (
+      <Modal open={isOpen} onClose={onClose} title="Error" width={500}>
+        <div className={styles.errorMessage}>
+          <div className={styles.errorIcon}>✕</div>
+          <h3>Something went wrong</h3>
+          <p>{error}</p>
+          <div className={styles.formActions}>
+            <button
+              type="button"
+              onClick={resetForm}
+              className={`${styles.btn} ${styles.btnPrimary}`}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </Modal>
+    );
+  }
+
   return (
     <Modal open={isOpen} onClose={onClose} title="Contact Us" width={500}>
       <form onSubmit={handleSubmit} className={styles.contactForm} noValidate>
         <div className={styles.formGroup}>
-          <label htmlFor="name">Name *</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
@@ -112,7 +139,7 @@ const Contact = ({ isOpen, onClose }: ContactProps) => {
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label htmlFor="email">Email *</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
@@ -140,19 +167,23 @@ const Contact = ({ isOpen, onClose }: ContactProps) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="message">Message *</label>
+          <label htmlFor="message">Message</label>
           <textarea
             id="message"
             name="message"
             value={formData.message}
             onChange={handleInputChange}
-            required
             rows={4}
             placeholder="Tell us how we can help you..."
             disabled={isSubmitting}
           />
         </div>
-
+        <div>
+          <HCaptcha
+            sitekey={import.meta.env.VITE_HSITE_KEY}
+            onVerify={(token) => handleVerificationSuccess(token)}
+          />
+        </div>
         <div className={styles.formActions}>
           <button
             type="button"
@@ -165,7 +196,7 @@ const Contact = ({ isOpen, onClose }: ContactProps) => {
           <button
             type="submit"
             className={`${styles.btn} ${styles.btnPrimary}`}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isSubmissionAllowed}
           >
             {isSubmitting ? (
               <span className={styles.loadingContent}>

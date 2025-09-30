@@ -4,6 +4,11 @@ import "./index.css";
 
 const OurProcess = () => {
   const { data } = useApi();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section className="process-section" id="process">
       <div className="container">
@@ -27,7 +32,7 @@ const OurProcess = () => {
                 <p>{step.description}</p>
               </div>
 
-              {index < (data?.process || []).length - 1 && (
+              {index < (data?.process?.items || []).length - 1 && (
                 <div className="step-connector">
                   <div className="connector-line"></div>
                   <div className="connector-arrow">↓</div>

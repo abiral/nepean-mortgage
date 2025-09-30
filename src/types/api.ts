@@ -81,7 +81,7 @@ interface IFooter {
 
 export interface ApiResponseData {
   name: string;
-  siteTitle: string;
+  site_title: string;
   assets: IAssets;
   hero_section: IHeroSection;
   about: IAbout;

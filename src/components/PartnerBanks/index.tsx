@@ -2,6 +2,11 @@ import { useApi } from "../../hooks/useApi";
 import "./index.css";
 const PartnerBanks = () => {
   const { data } = useApi();
+
+  if (!data) {
+    return null;
+  }
+
   return (
     <section className="partners-section" id="partners">
       <div className="container">

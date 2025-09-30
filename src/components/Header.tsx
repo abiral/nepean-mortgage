@@ -1,11 +1,26 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useApi } from "../hooks/useApi";
 
-const Header = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
+interface HeaderProps {
+  onContactUsClicked: () => void;
+  enableSticky?: boolean;
+  isTransparent?: boolean;
+}
+
+const Header = ({
+  onContactUsClicked,
+  enableSticky = true,
+  isTransparent = true,
+}: HeaderProps) => {
   const [isSticky, setIsSticky] = useState<boolean>(false);
   const { data } = useApi();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
+    if (!enableSticky) return;
+
     const handleScroll = () => {
       if (window.scrollY > 0) {
         setIsSticky(true);
@@ -19,13 +34,35 @@ const Header = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [enableSticky]);
+
+  // Add safety check for data after all hooks
+  if (!data) {
+    return (
+      <header className="header">
+        <nav className="nav container">
+          <div className="logo">
+            <Link to="/">
+              <span>Loading...</span>
+            </Link>
+          </div>
+        </nav>
+      </header>
+    );
+  }
 
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement>,
     targetId: string
   ) => {
     e.preventDefault();
+
+    if (!isHomePage) {
+      // If not on home page, navigate to home page with hash
+      window.location.href = `/#${targetId}`;
+      return;
+    }
+
     const element = document.getElementById(targetId);
     if (element) {
       element.scrollIntoView({
@@ -35,15 +72,48 @@ const Header = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
     }
   };
 
+  // Determine header classes based on props and state
+  const getHeaderClasses = () => {
+    let classes = "header";
+
+    if (!enableSticky) {
+      // For non-sticky headers (DefaultPages), use static positioning
+      classes += " static";
+    } else if (isSticky) {
+      // For sticky headers in sticky state
+      classes += " sticky";
+    }
+
+    if (!isTransparent) {
+      classes += " solid";
+    }
+
+    return classes;
+  };
+
+  // Determine which logo to show
+  const getLogoSrc = () => {
+    if (!isTransparent) {
+      // For solid headers (like DefaultPages), always show regular logo
+      return data?.assets.logo;
+    }
+
+    if (enableSticky && isSticky) {
+      // For sticky state on transparent headers, show regular logo
+      return data?.assets.logo;
+    }
+
+    // For transparent headers in non-sticky state, show inverted logo
+    return data?.assets.logo_inverted;
+  };
+
   return (
-    <header className={`header ${isSticky ? "sticky" : ""}`}>
+    <header className={getHeaderClasses()}>
       <nav className="nav container">
         <div className="logo">
-          {isSticky ? (
-            <img src={data?.assets.logo} alt={data?.siteTitle} />
-          ) : (
-            <img src={data?.assets.logo_inverted} alt={data?.siteTitle} />
-          )}
+          <Link to="/">
+            <img src={getLogoSrc()} alt={data?.site_title} />
+          </Link>
         </div>
         <ul className="nav-links">
           <li>
@@ -52,7 +122,10 @@ const Header = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
             </a>
           </li>
           <li>
-            <a href="#about" onClick={(e) => handleSmoothScroll(e, "process")}>
+            <a
+              href="#process"
+              onClick={(e) => handleSmoothScroll(e, "process")}
+            >
               Our Process
             </a>
           </li>
@@ -83,7 +156,7 @@ const Header = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
             </a>
           </li>
           <li>
-            <a href="#contact" onClick={(e) => onContactUsClicked()}>
+            <a href="#faq" onClick={(e) => handleSmoothScroll(e, "faq")}>
               FAQ
             </a>
           </li>
