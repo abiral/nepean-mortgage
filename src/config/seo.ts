@@ -1,63 +1,35 @@
 import type { ApiResponseData } from "../types/api";
+import seoSettings from "../data/seo-settings.json";
+import seoKeywords from "../data/seo-keywords.json";
+import pageOverrides from "../data/page-seo-overrides.json";
 
-// Static SEO Configuration (non-content related)
+// Load SEO configuration from JSON files
 export const SEO_CONFIG = {
-  siteUrl: "https://nepeanmortgage.com.au", // Update with actual domain
-  titleTemplate: "%s | %s", // Will be: Page Title | Site Name
-
-  // Default fallbacks when API data is not available
-  fallbacks: {
-    siteName: "Nepean Mortgage",
-    title: "Expert Mortgage Broker Services",
-    description:
-      "Professional mortgage broker services. Get expert advice on home loans, refinancing, and investment property loans with competitive rates.",
-    keywords: [
-      "mortgage broker",
-      "home loans",
-      "mortgage refinancing",
-      "first home buyer",
-      "investment property loans",
-      "mortgage calculator",
-    ],
-  },
-
-  // Business Information Template (will be populated from API + static data)
+  siteUrl: seoSettings.website.siteUrl,
+  titleTemplate: seoSettings.website.titleTemplate,
+  fallbacks: seoSettings.fallbacks,
   businessDefaults: {
-    legalName: "Nepean Mortgage Pty Ltd", // Static as unlikely to change
+    legalName: seoSettings.business.legalName,
     address: {
-      addressLocality: "Nepean",
-      addressRegion: "NSW",
-      addressCountry: "AU",
+      addressLocality: seoSettings.business.address.locality,
+      addressRegion: seoSettings.business.address.region,
+      addressCountry: seoSettings.business.address.country,
     },
-    serviceAreas: [
-      "Nepean",
-      "Penrith",
-      "Blue Mountains",
-      "Western Sydney",
-      "NSW",
-    ],
+    serviceAreas: seoSettings.business.serviceAreas,
   },
-
-  // Social Media Links (to be configured)
-  socialMedia: {
-    facebook: "",
-    linkedin: "",
-    twitter: "",
-    instagram: "",
-  },
-
-  // Default Open Graph settings
+  socialMedia: seoSettings.socialMedia,
   openGraph: {
     type: "website",
     locale: "en_AU",
-    defaultImage: {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-      alt: "Professional Mortgage Broker Services",
-    },
+    images: seoSettings.openGraphImages,
+  },
+  twitter: {
+    images: seoSettings.twitterImages,
   },
 } as const;
+
+// Load keywords from JSON file
+export const MORTGAGE_KEYWORDS = seoKeywords;
 
 /**
  * Generate dynamic SEO config from API data
@@ -69,7 +41,7 @@ export const generateSEOConfigFromAPI = (apiData: ApiResponseData) => {
     siteUrl: SEO_CONFIG.siteUrl,
     titleTemplate: SEO_CONFIG.titleTemplate,
 
-    // Business info from API + defaults
+    // Business info from API + JSON settings
     businessInfo: {
       name: apiData.name,
       legalName: SEO_CONFIG.businessDefaults.legalName,
@@ -95,151 +67,170 @@ export const generateSEOConfigFromAPI = (apiData: ApiResponseData) => {
     openGraph: {
       ...SEO_CONFIG.openGraph,
       siteName: apiData.name || SEO_CONFIG.fallbacks.siteName,
-      images: [
-        {
-          ...SEO_CONFIG.openGraph.defaultImage,
-          alt: `${
-            apiData.name || SEO_CONFIG.fallbacks.siteName
-          } - Professional Mortgage Broker Services`,
-        },
-      ],
     },
+
+    twitter: SEO_CONFIG.twitter,
 
     socialMedia: SEO_CONFIG.socialMedia,
   };
 };
 
-// Mortgage Industry Keywords by Category (static as these don't change)
-export const MORTGAGE_KEYWORDS = {
-  primary: [
-    "mortgage broker",
-    "home loans",
-    "mortgage refinancing",
-    "first home buyer loans",
-    "investment property loans",
-  ],
-
-  secondary: [
-    "mortgage calculator",
-    "home loan rates",
-    "mortgage pre-approval",
-    "refinance calculator",
-    "mortgage advice",
-    "loan comparison",
-    "mortgage specialist",
-  ],
-
-  longTail: [
-    "best mortgage rates in Nepean",
-    "first home buyer mortgage broker",
-    "investment property loan specialist",
-    "mortgage refinancing calculator",
-    "home loan pre-approval process",
-    "mortgage broker near me",
-    "commercial property loans",
-    "self-employed home loans",
-  ],
-
-  local: [
-    "Nepean mortgage broker",
-    "Penrith mortgage services",
-    "Blue Mountains home loans",
-    "Western Sydney mortgage broker",
-    "NSW mortgage specialist",
-    "mortgage broker near me",
-  ],
-} as const;
-
 /**
- * Generate page-specific SEO configurations using API data
+ * Generate page-specific SEO configurations using API data and JSON overrides
  */
 export const generatePageSEOConfig = (apiData: ApiResponseData) => {
   const siteName = apiData.name || SEO_CONFIG.fallbacks.siteName;
 
   return {
+    // Main landing page (/) - Uses API data with JSON overrides
     home: {
-      title:
-        apiData.hero_section?.title ||
-        `Expert Mortgage Broker Services in Nepean & Western Sydney`,
-      description:
-        apiData.hero_section?.description ||
-        "Professional mortgage broker services in Nepean. Get competitive home loan rates, expert refinancing advice, and personalized mortgage solutions.",
-      keywords: [
-        ...MORTGAGE_KEYWORDS.primary,
-        ...MORTGAGE_KEYWORDS.local.slice(0, 3),
-      ],
-      h1:
-        apiData.hero_section?.title ||
-        "Professional Mortgage Broker Services in Nepean",
-      priority: 1.0,
-      changeFreq: "weekly" as const,
+      title: getHomeTitle(apiData),
+      description: getHomeDescription(apiData),
+      keywords: getHomeKeywords(apiData),
+      h1: getHomeH1(apiData),
+      priority: pageOverrides.home.priority,
+      changeFreq: pageOverrides.home.changeFreq as
+        | "always"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "yearly"
+        | "never",
     },
 
-    about: {
-      title: `About ${siteName} - Your Trusted Mortgage Broker`,
-      description:
-        apiData.about?.description ||
-        `Learn about ${siteName}'s experienced team of mortgage brokers. We provide personalized home loan solutions with access to multiple lenders and competitive rates.`,
-      keywords: [
-        "about mortgage broker",
-        "mortgage broker experience",
-        "loan specialist team",
-      ],
-      h1: apiData.about?.title || `About ${siteName}`,
-      priority: 0.8,
-      changeFreq: "monthly" as const,
+    // Other pages use JSON configuration with siteName replacement
+    "privacy-policy": {
+      title: `${pageOverrides["privacy-policy"].titleSuffix} - ${siteName}`,
+      description: pageOverrides["privacy-policy"].description.replace(
+        "{siteName}",
+        siteName
+      ),
+      keywords: pageOverrides["privacy-policy"].keywords,
+      h1: pageOverrides["privacy-policy"].h1,
+      priority: pageOverrides["privacy-policy"].priority,
+      changeFreq: pageOverrides["privacy-policy"].changeFreq as
+        | "always"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "yearly"
+        | "never",
     },
 
-    services: {
-      title: "Mortgage Services - Home Loans, Refinancing & More",
-      description: apiData.services?.items
-        ? `Comprehensive mortgage services including ${apiData.services.items
-            .slice(0, 3)
-            .map((s) => s.title.toLowerCase())
-            .join(", ")} and more. Expert advice and competitive rates.`
-        : "Comprehensive mortgage services including home loans, refinancing, investment property loans, and first home buyer assistance.",
-      keywords: apiData.services?.items?.map((service) =>
-        service.title.toLowerCase()
-      ) || ["mortgage services", "loan types"],
-      h1: apiData.services?.title || "Our Mortgage Services",
-      priority: 0.9,
-      changeFreq: "monthly" as const,
+    "website-policy": {
+      title: `${pageOverrides["website-policy"].titleSuffix} - ${siteName}`,
+      description: pageOverrides["website-policy"].description.replace(
+        "{siteName}",
+        siteName
+      ),
+      keywords: pageOverrides["website-policy"].keywords,
+      h1: pageOverrides["website-policy"].h1,
+      priority: pageOverrides["website-policy"].priority,
+      changeFreq: pageOverrides["website-policy"].changeFreq as
+        | "always"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "yearly"
+        | "never",
     },
 
-    calculators: {
-      title: "Mortgage Calculators - Loan Repayment & Refinancing Tools",
-      description:
-        "Free mortgage calculators for loan repayments, refinancing savings, and borrowing capacity. Plan your home loan with our easy-to-use financial tools.",
-      keywords: [
-        ...MORTGAGE_KEYWORDS.secondary.filter((k) => k.includes("calculator")),
-      ],
-      h1: "Mortgage Calculators",
-      priority: 0.7,
-      changeFreq: "monthly" as const,
-    },
-
-    contact: {
-      title: `Contact ${siteName} - Get Your Free Consultation`,
-      description: `Contact ${siteName} for expert mortgage advice. Book your free consultation today and discover how we can help you secure the best home loan.`,
-      keywords: [
-        "contact mortgage broker",
-        "mortgage consultation",
-        "mortgage advice",
-      ],
-      h1: "Contact Us",
-      priority: 0.8,
-      changeFreq: "monthly" as const,
-    },
-
-    faq: {
-      title: "Mortgage FAQ - Common Home Loan Questions Answered",
-      description:
-        apiData.faq?.description ||
-        "Get answers to frequently asked questions about mortgages, home loans, refinancing, and the mortgage application process from our expert brokers.",
-      keywords: ["mortgage FAQ", "home loan questions", "mortgage process"],
-      h1: apiData.faq?.title || "Frequently Asked Questions",
-      priority: 0.6,
-      changeFreq: "monthly" as const,
+    "feedback-and-complaints": {
+      title: `${pageOverrides["feedback-and-complaints"].titleSuffix} - ${siteName}`,
+      description: pageOverrides["feedback-and-complaints"].description.replace(
+        "{siteName}",
+        siteName
+      ),
+      keywords: pageOverrides["feedback-and-complaints"].keywords,
+      h1: pageOverrides["feedback-and-complaints"].h1,
+      priority: pageOverrides["feedback-and-complaints"].priority,
+      changeFreq: pageOverrides["feedback-and-complaints"].changeFreq as
+        | "always"
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "yearly"
+        | "never",
     },
   };
+};
+
+/**
+ * Get home page title - uses override or API data
+ */
+const getHomeTitle = (apiData: ApiResponseData): string => {
+  if (pageOverrides.home.titleOverride) {
+    return pageOverrides.home.titleOverride;
+  }
+
+  return (
+    apiData.hero_section?.title ||
+    `Expert Mortgage Broker Services in Nepean & Western Sydney`
+  );
+};
+
+/**
+ * Get home page description - uses override or generates from API data
+ */
+const getHomeDescription = (apiData: ApiResponseData): string => {
+  if (pageOverrides.home.descriptionOverride) {
+    return pageOverrides.home.descriptionOverride;
+  }
+
+  const hero = apiData.hero_section?.description;
+  const services = apiData.services?.items
+    ?.slice(0, 3)
+    .map((s) => s.title.toLowerCase())
+    .join(", ");
+
+  if (hero && services) {
+    return `${hero} Specializing in ${services} and more. Contact us for expert mortgage advice.`;
+  } else if (hero) {
+    return hero;
+  } else if (services) {
+    return `Professional mortgage broker services including ${services}. Get competitive rates and expert advice.`;
+  }
+
+  return "Professional mortgage broker services in Nepean. Get competitive home loan rates, expert refinancing advice, and personalized mortgage solutions.";
+};
+
+/**
+ * Get home page keywords - uses overrides or generates from API + JSON data
+ */
+const getHomeKeywords = (apiData: ApiResponseData): string[] => {
+  if (pageOverrides.home.keywordOverrides.length > 0) {
+    return pageOverrides.home.keywordOverrides;
+  }
+
+  const baseKeywords = [
+    ...MORTGAGE_KEYWORDS.primary,
+    ...MORTGAGE_KEYWORDS.local.slice(0, 3),
+  ];
+
+  // Add service-specific keywords from API
+  const serviceKeywords =
+    apiData.services?.items
+      ?.map((service) => service.title.toLowerCase())
+      .slice(0, 3) || [];
+
+  // Combine and deduplicate
+  return [...new Set([...baseKeywords, ...serviceKeywords])].slice(0, 10);
+};
+
+/**
+ * Get home page H1 - uses override or API data
+ */
+const getHomeH1 = (apiData: ApiResponseData): string => {
+  if (pageOverrides.home.h1Override) {
+    return pageOverrides.home.h1Override;
+  }
+
+  return (
+    apiData.hero_section?.title ||
+    "Professional Mortgage Broker Services in Nepean"
+  );
 };

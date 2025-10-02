@@ -1,0 +1,68 @@
+{
+  "website": {
+    "siteUrl": "https://nepeanmortgage.com.au",
+    "titleTemplate": "%s | %s"
+  },
+  "business": {
+    "legalName": "Nepean Mortgage Pty Ltd",
+    "address": {
+      "locality": "Nepean",
+      "region": "NSW",
+      "country": "AU"
+    },
+    "serviceAreas": [
+      "Nepean",
+      "Penrith",
+      "Blue Mountains",
+      "Western Sydney",
+      "NSW"
+    ]
+  },
+  "socialMedia": {
+    "facebook": "",
+    "linkedin": "",
+    "twitter": "",
+    "instagram": ""
+  },
+  "openGraphImages": {
+    "home": {
+      "url": "/images/og/og-home.jpg",
+      "width": 1200,
+      "height": 630,
+      "alt": "Expert Mortgage Broker Services in Nepean & Western Sydney - Nepean Mortgage"
+    },
+    "fallback": {
+      "url": "/images/og/og-fallback.jpg",
+      "width": 1200,
+      "height": 630,
+      "alt": "Nepean Mortgage - Your Trusted Mortgage Broker"
+    }
+  },
+  "twitterImages": {
+    "home": {
+      "url": "/images/og/twitter-home.jpg",
+      "width": 1200,
+      "height": 600,
+      "alt": "Expert Mortgage Broker Services in Nepean & Western Sydney - Nepean Mortgage"
+    },
+    "fallback": {
+      "url": "/images/og/twitter-fallback.jpg",
+      "width": 1200,
+      "height": 600,
+      "alt": "Nepean Mortgage - Your Trusted Mortgage Broker"
+    }
+  },
+  "fallbacks": {
+    "siteName": "Nepean Mortgage",
+    "title": "Expert Mortgage Broker Services",
+    "description": "Professional mortgage broker services. Get expert advice on home loans, refinancing, and investment property loans with competitive rates.",
+    "keywords": [
+      "mortgage broker",
+      "home loans",
+      "mortgage refinancing",
+      "first home buyer",
+      "investment property loans",
+      "mortgage calculator"
+    ]
+  }
+}

@@ -3,8 +3,8 @@ import { Helmet } from "react-helmet-async";
 import { useApi } from "../../hooks/useApi";
 import {
   generatePageSEO,
-  generateOpenGraphData,
-  generateTwitterCardData,
+  generateOpenGraphDataWithImages,
+  generateTwitterCardDataWithImages,
   generateLocalBusinessSchema,
   generateFAQSchema,
 } from "../../utils/seo";
@@ -38,8 +38,16 @@ const SEOHead: React.FC<SEOHeadProps> = ({
 
   // Generate SEO data from API
   const seoData = generatePageSEO(pageKey, apiData, customSEO);
-  const openGraphData = generateOpenGraphData(seoData, apiData);
-  const twitterCardData = generateTwitterCardData(seoData, apiData);
+  const openGraphData = generateOpenGraphDataWithImages(
+    seoData,
+    apiData,
+    pageKey
+  );
+  const twitterCardData = generateTwitterCardDataWithImages(
+    seoData,
+    apiData,
+    pageKey
+  );
 
   // Generate structured data
   const structuredData: StructuredDataObject[] = [...additionalStructuredData];

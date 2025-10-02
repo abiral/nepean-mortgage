@@ -5,6 +5,8 @@ import {
   generatePageSEOConfig,
   MORTGAGE_KEYWORDS,
 } from "../config/seo";
+import seoSettings from "../data/seo-settings.json";
+import pageOverrides from "../data/page-seo-overrides.json";
 import type { ApiResponseData } from "../types/api";
 import type {
   SEOPageData,
@@ -396,4 +398,164 @@ export const generateServiceSEO = (
     ],
     ...customData,
   };
+};
+
+/**
+ * Get optimal Open Graph image with fallback system
+ */
+export const getOptimalOGImage = (pageKey: string, customImage?: string) => {
+  // 1. Custom override from page settings
+  const pageOverride = pageOverrides[pageKey as keyof typeof pageOverrides];
+  if (
+    pageOverride &&
+    "ogImageOverride" in pageOverride &&
+    pageOverride.ogImageOverride
+  ) {
+    return {
+      url: pageOverride.ogImageOverride,
+      width: 1200,
+      height: 630,
+      alt: `Custom image for ${pageKey}`,
+    };
+  }
+
+  // 2. Custom image passed as parameter
+  if (customImage) {
+    return {
+      url: customImage,
+      width: 1200,
+      height: 630,
+      alt: `Custom image for ${pageKey}`,
+    };
+  }
+
+  // 3. Page-specific image from settings
+  const pageSpecificImage =
+    seoSettings.openGraphImages[
+      pageKey as keyof typeof seoSettings.openGraphImages
+    ];
+  if (pageSpecificImage) {
+    return pageSpecificImage;
+  }
+
+  // 4. Default image
+  if (seoSettings.openGraphImages.default) {
+    return seoSettings.openGraphImages.default;
+  }
+
+  // 5. Final fallback
+  return seoSettings.openGraphImages.fallback;
+};
+
+/**
+ * Get optimal Twitter image with fallback system
+ */
+export const getOptimalTwitterImage = (
+  pageKey: string,
+  customImage?: string
+) => {
+  // 1. Custom override from page settings
+  const pageOverride = pageOverrides[pageKey as keyof typeof pageOverrides];
+  if (
+    pageOverride &&
+    "twitterImageOverride" in pageOverride &&
+    pageOverride.twitterImageOverride
+  ) {
+    return {
+      url: pageOverride.twitterImageOverride,
+      width: 1200,
+      height: 600,
+      alt: `Custom Twitter image for ${pageKey}`,
+    };
+  }
+
+  // 2. Custom image passed as parameter
+  if (customImage) {
+    return {
+      url: customImage,
+      width: 1200,
+      height: 600,
+      alt: `Custom Twitter image for ${pageKey}`,
+    };
+  }
+
+  // 3. Twitter-specific default
+  if (seoSettings.twitterImages.default) {
+    return seoSettings.twitterImages.default;
+  }
+
+  // 4. Twitter fallback
+  return seoSettings.twitterImages.fallback;
+};
+
+/**
+ * Updated Open Graph data generation with smart image selection
+ */
+export const generateOpenGraphDataWithImages = (
+  seoData: SEOPageData,
+  apiData: ApiResponseData,
+  pageKey: string
+) => {
+  const seoConfig = generateSEOConfigFromAPI(apiData);
+  //   const ogImage = getOptimalOGImage(pageKey, seoData.ogImage);
+
+  return {
+    "og:title": seoData.title,
+    "og:description": seoData.description,
+    "og:type": seoData.ogType || seoConfig.openGraph.type,
+    "og:url": seoData.canonicalUrl || seoConfig.siteUrl,
+    "og:site_name": seoConfig.siteName,
+    "og:locale": seoConfig.openGraph.locale,
+    // "og:image": ogImage.url,
+    // "og:image:width": ogImage.width.toString(),
+    // "og:image:height": ogImage.height.toString(),
+    // "og:image:alt": ogImage.alt,
+  };
+};
+
+/**
+ * Updated Twitter Card data generation with smart image selection
+ */
+export const generateTwitterCardDataWithImages = (
+  seoData: SEOPageData,
+  apiData: ApiResponseData,
+  pageKey: string
+) => {
+  const twitterImage = getOptimalTwitterImage(pageKey, seoData.ogImage);
+
+  return {
+    "twitter:card": "summary_large_image",
+    "twitter:title": seoData.title,
+    "twitter:description": seoData.description,
+    "twitter:image": twitterImage.url,
+    "twitter:image:alt": twitterImage.alt,
+  };
+};
+
+/**
+ * Check if image URL exists and is accessible
+ */
+export const validateImageUrl = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Get image dimensions from URL
+ */
+export const getImageDimensions = (
+  url: string
+): Promise<{ width: number; height: number }> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
 };
