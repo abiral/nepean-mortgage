@@ -28,7 +28,7 @@ const defaultState: ModalState = {
   props: {},
 };
 
-const ModalContext = createContext<ModalContextType>({
+export const ModalContext = createContext<ModalContextType>({
   modalState: defaultState,
   openModal: () => {},
   closeModal: () => {},

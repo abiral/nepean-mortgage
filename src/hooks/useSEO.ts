@@ -74,17 +74,17 @@ export const useStructuredData = () => {
     return generateFAQSchema(apiData);
   }, [apiData]);
 
-  const generateServiceSchema = useMemo(() => {
-    return (serviceId?: string) => {
-      if (!apiData) return null;
-      return generateServiceSchema(apiData, serviceId);
-    };
-  }, [apiData]);
+  //   const generateServiceSchema = useMemo(() => {
+  //     return (serviceId?: string) => {
+  //       if (!apiData) return null;
+  //       return generateServiceSchema(apiData, serviceId);
+  //     };
+  //   }, [apiData]);
 
   return {
     localBusinessSchema,
     faqSchema,
-    generateServiceSchema,
+    // generateServiceSchema,
     isReady: !!apiData,
   };
 };

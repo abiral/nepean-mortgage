@@ -5,6 +5,9 @@ import {
   generatePageSEOConfig,
   MORTGAGE_KEYWORDS,
 } from "../config/seo";
+
+// Re-export the function to make it available
+export { generateSEOConfigFromAPI };
 import seoSettings from "../data/seo-settings.json";
 import pageOverrides from "../data/page-seo-overrides.json";
 import type { ApiResponseData } from "../types/api";
@@ -40,7 +43,7 @@ export const generatePageSEO = (
       canonicalUrl:
         customData?.canonicalUrl ||
         `${seoConfig.siteUrl}/${pageKey === "home" ? "" : pageKey}`,
-      ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
+      //   ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
       ogType: customData?.ogType || "website",
       structuredData: customData?.structuredData || [],
       ...customData,
@@ -54,7 +57,7 @@ export const generatePageSEO = (
     canonicalUrl:
       customData?.canonicalUrl ||
       `${seoConfig.siteUrl}/${pageKey === "home" ? "" : pageKey}`,
-    ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
+    // ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
     ogType: customData?.ogType || "website",
     h1: customData?.h1 || pageConfig.h1,
     structuredData: customData?.structuredData || [],
@@ -77,16 +80,16 @@ export const generateLocalBusinessSchema = (
     name: businessInfo.name,
     description: businessInfo.description,
     address: {
-      "@type": "PostalAddress",
+      //   "@type": "PostalAddress",
       ...businessInfo.address,
     },
     telephone: businessInfo.contactInfo.telephone,
     email: businessInfo.contactInfo.email,
     url: businessInfo.contactInfo.website,
-    serviceArea: businessInfo.serviceAreas.map((area) => ({
-      "@type": "City",
-      name: area,
-    })),
+    // serviceArea: businessInfo.serviceAreas.map((area) => ({
+    //   "@type": "City",
+    //   name: area,
+    // })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Mortgage Services",
@@ -342,10 +345,10 @@ export const generateOpenGraphData = (
     "og:url": seoData.canonicalUrl || seoConfig.siteUrl,
     "og:site_name": seoConfig.siteName,
     "og:locale": seoConfig.openGraph.locale,
-    "og:image": seoData.ogImage || seoConfig.openGraph.images[0].url,
-    "og:image:width": seoConfig.openGraph.images[0].width?.toString(),
-    "og:image:height": seoConfig.openGraph.images[0].height?.toString(),
-    "og:image:alt": seoConfig.openGraph.images[0].alt,
+    // "og:image": seoData.ogImage || seoConfig.openGraph.images[0].url,
+    // "og:image:width": seoConfig.openGraph.images[0].width?.toString(),
+    // "og:image:height": seoConfig.openGraph.images[0].height?.toString(),
+    // "og:image:alt": seoConfig.openGraph.images[0].alt,
   };
 };
 
@@ -353,16 +356,16 @@ export const generateOpenGraphData = (
  * Generate Twitter Card data using API data
  */
 export const generateTwitterCardData = (
-  seoData: SEOPageData,
-  apiData: ApiResponseData
+  seoData: SEOPageData
+  //   apiData: ApiResponseData
 ) => {
-  const seoConfig = generateSEOConfigFromAPI(apiData);
+  //   const seoConfig = generateSEOConfigFromAPI(apiData);
 
   return {
     "twitter:card": "summary_large_image",
     "twitter:title": seoData.title,
     "twitter:description": seoData.description,
-    "twitter:image": seoData.ogImage || seoConfig.openGraph.images[0].url,
+    // "twitter:image": seoData.ogImage || seoConfig.openGraph.images[0].url,
   };
 };
 
@@ -390,7 +393,7 @@ export const generateServiceSEO = (
     ],
     canonicalUrl:
       customData?.canonicalUrl || `${seoConfig.siteUrl}/services/${serviceId}`,
-    ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
+    // ogImage: customData?.ogImage || seoConfig.openGraph.images[0].url,
     ogType: customData?.ogType || "website",
     h1: customData?.h1 || service.title,
     structuredData: customData?.structuredData || [
@@ -439,9 +442,9 @@ export const getOptimalOGImage = (pageKey: string, customImage?: string) => {
   }
 
   // 4. Default image
-  if (seoSettings.openGraphImages.default) {
-    return seoSettings.openGraphImages.default;
-  }
+  //   if (seoSettings.openGraphImages.default) {
+  //     return seoSettings.openGraphImages.default;
+  //   }
 
   // 5. Final fallback
   return seoSettings.openGraphImages.fallback;
@@ -480,9 +483,9 @@ export const getOptimalTwitterImage = (
   }
 
   // 3. Twitter-specific default
-  if (seoSettings.twitterImages.default) {
-    return seoSettings.twitterImages.default;
-  }
+  //   if (seoSettings.twitterImages.default) {
+  //     return seoSettings.twitterImages.default;
+  //   }
 
   // 4. Twitter fallback
   return seoSettings.twitterImages.fallback;
@@ -493,8 +496,8 @@ export const getOptimalTwitterImage = (
  */
 export const generateOpenGraphDataWithImages = (
   seoData: SEOPageData,
-  apiData: ApiResponseData,
-  pageKey: string
+  apiData: ApiResponseData
+  //   pageKey: string
 ) => {
   const seoConfig = generateSEOConfigFromAPI(apiData);
   //   const ogImage = getOptimalOGImage(pageKey, seoData.ogImage);
@@ -517,18 +520,18 @@ export const generateOpenGraphDataWithImages = (
  * Updated Twitter Card data generation with smart image selection
  */
 export const generateTwitterCardDataWithImages = (
-  seoData: SEOPageData,
-  apiData: ApiResponseData,
-  pageKey: string
+  seoData: SEOPageData
+  //   apiData: ApiResponseData,
+  //   pageKey: string
 ) => {
-  const twitterImage = getOptimalTwitterImage(pageKey, seoData.ogImage);
+  //   const twitterImage = getOptimalTwitterImage(pageKey, seoData.ogImage);
 
   return {
     "twitter:card": "summary_large_image",
     "twitter:title": seoData.title,
     "twitter:description": seoData.description,
-    "twitter:image": twitterImage.url,
-    "twitter:image:alt": twitterImage.alt,
+    // "twitter:image": twitterImage.url,
+    // "twitter:image:alt": twitterImage.alt,
   };
 };
 

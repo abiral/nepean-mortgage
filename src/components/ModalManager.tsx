@@ -1,5 +1,6 @@
 import { lazy, Suspense } from "react";
 import { useModal, ModalType } from "../context/ModalContext";
+import { CalculatorLists } from "./Calculators/types";
 
 // Lazy load modal components
 const Contact = lazy(() => import("./Contact"));
@@ -25,7 +26,7 @@ const ModalManager = () => {
       case ModalType.CALCULATOR:
         return (
           <Calculators
-            name={modalState.props?.name}
+            name={modalState.props?.name as CalculatorLists}
             onClose={closeModal}
             {...modalState.props}
           />
