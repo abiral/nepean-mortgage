@@ -1,20 +1,7 @@
 import { useApi } from "../hooks/useApi";
-import { useCriticalImage } from "../hooks/useOptimizedImage";
-import { useLayoutShiftOptimization } from "../hooks/usePerformance";
 
 const Hero = () => {
   const { data } = useApi();
-  useLayoutShiftOptimization();
-  
-  const { isLoaded, imageProps } = useCriticalImage(
-    data?.hero_section?.banner,
-    () => {
-      // Optional: Track LCP timing
-      if (typeof performance !== 'undefined' && performance.mark) {
-        performance.mark('hero-image-loaded');
-      }
-    }
-  );
 
   if (!data) {
     return (
@@ -38,13 +25,12 @@ const Hero = () => {
             <h1>{data?.hero_section.title}</h1>
             <p>{data?.hero_section.description}</p>
           </div>
-          <div className="hero-image" data-dynamic-height>
+          <div className="hero-image">
             <img
-              {...imageProps()}
-              alt="Mortgage brokers discussing and reviewing documents at Nepean Mortgage office"
-              width="600"
-              height="400"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+              src={data?.hero_section.banner}
+              alt="Loan Image for Nepean Mortgage"
+              width={556}
+              height={556}
             />
           </div>
         </div>

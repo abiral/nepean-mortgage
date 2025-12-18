@@ -6,7 +6,6 @@ import { usePerformanceOptimizations } from "./hooks/usePerformance";
 import { ModalProvider } from "./context/ModalContext";
 import ModalManager from "./components/ModalManager";
 import ScrollToTop from "./components/ScrollToTop";
-import PerformanceMonitor from "./components/PerformanceMonitor";
 import LandingPage from "./pages/LandingPage";
 import Preloader from "./components/Shared/Preloader";
 
@@ -80,7 +79,6 @@ function App() {
     <HelmetProvider>
       <ModalProvider>
         <Router>
-          <PerformanceMonitor />
           <Suspense fallback={<Preloader />}>
             <Routes>
               <Route path="/" element={<LandingPage />} />

@@ -1,5 +1,8 @@
 # .htaccess configuration for Apache servers
-# Place this in your public directory root
+# SPA routing + Performance optimizations
+
+# Disable MultiViews for SPA routing
+Options -MultiViews
 
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -41,7 +44,7 @@
 </IfModule>
 
 <IfModule mod_headers.c>
-    # Enable GZIP compression
+    # Cache headers for static assets
     <filesMatch "\\.(css|js|json|xml|txt)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </filesMatch>
@@ -80,16 +83,16 @@
     AddOutputFilterByType DEFLATE application/json
 </IfModule>
 
-# Browser caching for Vite assets
+# SPA routing and asset handling
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Handle Vite asset files with hash
+    # Handle Vite asset files with hash (skip SPA routing)
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^assets/.+\.(js|css|png|jpg|jpeg|gif|webp|svg|woff2|woff|ttf|eot)$ - [L]
+    
+    # SPA routing - redirect all non-file requests to index.html
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^assets/.+\.(js|css|png|jpg|jpeg|gif|webp|svg|woff2|woff|ttf|eot)$ - [L,E=VITE_ASSET:1]
-    
-    # Set long cache for hashed assets
-    RewriteCond %{ENV:VITE_ASSET} ^1$
-    RewriteRule .* - [E=CACHE_CONTROL:public,max-age=31536000,immutable]
+    RewriteRule ^ index.html [QSA,L]
 </IfModule>
