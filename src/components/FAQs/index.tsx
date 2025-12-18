@@ -35,13 +35,15 @@ const FAQ = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
               >
                 <span>{item.title}</span>
                 <span className="faq-icon">
-                  {activeItem === item.key ? "−" : "+"}
+                  {activeItem === item.key ? "-" : "+"}
                 </span>
               </button>
 
               <div className="faq-answer">
                 <div className="faq-answer-content">
-                  <p>{item.description}</p>
+                  {item.description.split('\n').map((line, index) => (
+                    <p key={index}>{line}</p>
+                  ))}
                 </div>
               </div>
             </div>

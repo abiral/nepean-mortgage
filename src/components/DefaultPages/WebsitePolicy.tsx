@@ -1,7 +1,7 @@
 import Header from "../Header";
 import Footer from "../Footer";
 import { useContactModal } from "../../hooks/useContactModal";
-import { Helmet } from "react-helmet-async";
+import DirectSEO from "../SEO/DirectSEO";
 import "./DefaultPages.css";
 
 const WebsitePolicy = () => {
@@ -9,9 +9,7 @@ const WebsitePolicy = () => {
 
   return (
     <div className="default-page">
-      <Helmet>
-        <title>Website Policy | Nepean Mortgage</title>
-      </Helmet>
+      <DirectSEO path="/website-policy" />
       <Header
         onContactUsClicked={() => openContactForm()}
         enableSticky={false}

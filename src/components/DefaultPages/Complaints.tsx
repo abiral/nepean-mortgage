@@ -1,7 +1,7 @@
-import { Helmet } from "react-helmet-async";
 import Header from "../Header";
 import Footer from "../Footer";
 import { useContactModal } from "../../hooks/useContactModal";
+import DirectSEO from "../SEO/DirectSEO";
 import "./DefaultPages.css";
 
 const Complaints = () => {
@@ -9,9 +9,7 @@ const Complaints = () => {
 
   return (
     <div className="default-page">
-      <Helmet>
-        <title>Feedback and Complaints | Nepean Mortgage</title>
-      </Helmet>
+      <DirectSEO path="/feedback-and-complaints" />
       <Header
         onContactUsClicked={() => openContactForm()}
         enableSticky={false}

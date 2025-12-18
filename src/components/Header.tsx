@@ -65,9 +65,15 @@ const Header = ({
 
     const element = document.getElementById(targetId);
     if (element) {
-      element.scrollIntoView({
+      // Calculate header height for offset
+      const headerHeight = 80; // Approximate header height
+      const elementPosition =
+        element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
         behavior: "smooth",
-        block: "start",
       });
     }
   };

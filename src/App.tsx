@@ -3,16 +3,13 @@ import { lazy, Suspense } from "react";
 import { useApi } from "./hooks/useApi";
 import { ModalProvider } from "./context/ModalContext";
 import ModalManager from "./components/ModalManager";
+import ScrollToTop from "./components/ScrollToTop";
 import LandingPage from "./LandingPage";
 import Preloader from "./components/Shared/Preloader";
 
-const PrivacyPolicy = lazy(
-  () => import("./components/DefaultPages/PrivacyPolicy")
-);
-const WebsitePolicy = lazy(
-  () => import("./components/DefaultPages/WebsitePolicy")
-);
-const Complaints = lazy(() => import("./components/DefaultPages/Complaints"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const WebsitePolicy = lazy(() => import("./pages/WebsitePolicy"));
+const FeedbackComplaints = lazy(() => import("./pages/FeedbackComplaints"));
 
 function App() {
   const { loading, error, refreshData } = useApi();
@@ -63,9 +60,13 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/website-policy" element={<WebsitePolicy />} />
-            <Route path="/feedback-and-complaints" element={<Complaints />} />
+            <Route
+              path="/feedback-and-complaints"
+              element={<FeedbackComplaints />}
+            />
           </Routes>
         </Suspense>
+        <ScrollToTop />
         <ModalManager />
       </Router>
     </ModalProvider>

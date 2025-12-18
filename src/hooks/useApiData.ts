@@ -3,7 +3,7 @@ import type { ApiResponse, ApiResponseData } from "../types/api";
 import { FeedService } from "../services";
 
 const STORAGE_KEY = "mortgage_api_data";
-const REFETCH_INTERVAL = 5;
+// const REFETCH_INTERVAL = 5;
 
 export const useApiData = () => {
   const [data, setData] = useState<ApiResponseData | null>(null);
@@ -15,10 +15,8 @@ export const useApiData = () => {
       setLoading(true);
       setError(null);
 
-      console.log("Fetching data from API...");
       const apiData: ApiResponse = await FeedService.getFeeds();
-      console.log("API data received:", apiData);
-
+      
       localStorage.setItem(STORAGE_KEY, JSON.stringify(apiData.data));
       setData(apiData.data);
     } catch (err) {
@@ -60,11 +58,11 @@ export const useApiData = () => {
       fetchData();
     }
 
-    const interval = setInterval(() => {
-      fetchData();
-    }, REFETCH_INTERVAL * 60 * 1000);
+    // const interval = setInterval(() => {
+    //   fetchData();
+    // }, REFETCH_INTERVAL * 60 * 1000);
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const refreshData = () => {

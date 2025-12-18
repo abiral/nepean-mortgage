@@ -1,0 +1,136 @@
+{
+  "business": {
+    "name": "Nepean Mortgage",
+    "legalName": "Nepean Mortgage Pty Ltd",
+    "description": "Professional mortgage broker services in Nepean and Western Sydney. Expert advice on home loans, refinancing, investment property loans, and first home buyer assistance.",
+    "slogan": "Your Trusted Mortgage Partner in Nepean & Western Sydney",
+    "foundingDate": "2020",
+    "website": "https://nepeanmortgage.com.au",
+    "logo": {
+      "url": "/images/logo/nepean-mortgage-logo.png",
+      "width": 300,
+      "height": 100,
+      "alt": "Nepean Mortgage Logo"
+    },
+    "image": {
+      "url": "/images/business/nepean-mortgage-office.jpg",
+      "width": 1200,
+      "height": 630,
+      "alt": "Nepean Mortgage Office"
+    }
+  },
+  "contact": {
+    "phone": "+61-2-4721-5555",
+    "email": "info@nepeanmortgage.com.au",
+    "website": "https://nepeanmortgage.com.au"
+  },
+  "address": {
+    "streetAddress": "Suite 1, 123 High Street",
+    "addressLocality": "Nepean",
+    "addressRegion": "NSW",
+    "postalCode": "2747",
+    "addressCountry": "AU",
+    "coordinates": {
+      "latitude": -33.7506,
+      "longitude": 150.6919
+    }
+  },
+  "serviceAreas": {
+    "primary": "Nepean",
+    "secondary": ["Penrith", "Blue Mountains", "Western Sydney", "Hawkesbury"],
+    "radius": 50,
+    "description": "Serving Nepean, Penrith, Blue Mountains, Western Sydney and surrounding areas within 50km"
+  },
+  "businessHours": {
+    "weekdays": {
+      "days": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "saturday": {
+      "days": ["Saturday", "Sunday"],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  },
+  "services": [
+    {
+      "id": "home-loans",
+      "name": "Home Loans",
+      "description": "Comprehensive home loan services for first home buyers and existing homeowners",
+      "category": "Residential Lending"
+    },
+    {
+      "id": "refinancing",
+      "name": "Mortgage Refinancing",
+      "description": "Refinancing services to help you get better rates and terms on your existing mortgage",
+      "category": "Refinancing"
+    },
+    {
+      "id": "investment-loans",
+      "name": "Investment Property Loans",
+      "description": "Specialized lending solutions for investment property purchases",
+      "category": "Investment Lending"
+    },
+    {
+      "id": "first-home-buyer",
+      "name": "First Home Buyer Loans",
+      "description": "Dedicated support and loan options for first home buyers",
+      "category": "First Home Buyer"
+    },
+    {
+      "id": "commercial-loans",
+      "name": "Commercial Loans",
+      "description": "Business and commercial property lending solutions",
+      "category": "Commercial Lending"
+    },
+    {
+      "id": "smsf-loans",
+      "name": "SMSF Loans",
+      "description": "Self-managed super fund property investment loans",
+      "category": "SMSF Lending"
+    }
+  ],
+  "credentials": {
+    "licenses": [
+      {
+        "name": "Australian Credit Licence",
+        "number": "ACL123456",
+        "issuer": "ASIC"
+      }
+    ],
+    "memberships": [
+      {
+        "name": "Mortgage & Finance Association of Australia",
+        "abbreviation": "MFAA",
+        "url": "https://www.mfaa.com.au"
+      },
+      {
+        "name": "Australian Securities and Investments Commission",
+        "abbreviation": "ASIC",
+        "url": "https://www.asic.gov.au"
+      }
+    ],
+    "certifications": [
+      "Certificate IV in Finance and Mortgage Broking",
+      "Diploma of Finance and Mortgage Broking Management"
+    ]
+  },
+  "businessDetails": {
+    "industryCode": {
+      "naics": "522310",
+      "isic": "6619"
+    },
+    "businessType": "Financial Services",
+    "priceRange": "$$",
+    "paymentMethods": ["Cash", "Credit Card", "Bank Transfer", "Direct Debit"],
+    "currencies": ["AUD"],
+    "languages": ["English"]
+  },
+  "socialMedia": {
+    "facebook": "https://www.facebook.com/nepeanmortgage",
+    "linkedin": "https://www.linkedin.com/company/nepean-mortgage",
+    "twitter": "https://twitter.com/nepeanmortgage",
+    "instagram": "https://www.instagram.com/nepeanmortgage"
+  }
+}

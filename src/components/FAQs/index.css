@@ -85,7 +85,7 @@
 }
 
 .faq-item.active .faq-answer {
-    max-height: 300px;
+    max-height: 500px; /* Increased from 300px to accommodate line breaks */
 }
 
 .faq-answer-content {
@@ -96,6 +96,13 @@
     color: #666;
     line-height: 1.6;
     font-size: 1rem;
+    word-wrap: break-word; /* Ensure long words break */
+    overflow-wrap: break-word; /* Modern property for word breaking */
+    margin-bottom: 0.5rem; /* Add spacing between paragraphs */
+}
+
+.faq-answer-content p:last-child {
+    margin-bottom: 0; /* Remove margin from last paragraph */
 }
 
 .faq-footer {
