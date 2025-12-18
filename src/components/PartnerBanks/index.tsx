@@ -55,7 +55,7 @@ const PartnerBanks = () => {
           {/* Render items twice for seamless infinite scroll */}
           {[...data.banking_partners.items, ...data.banking_partners.items].map((partner, index) => (
             <div key={`partner-bank-${partner.id}-${index}`} className="slide">
-              <img src={partner.logo} alt={partner.name} />
+              <img src={partner.logo} alt={partner.title} />
             </div>
           ))}
         </div>

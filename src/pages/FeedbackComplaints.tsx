@@ -1,5 +1,5 @@
 import React from "react";
-import DirectSEO from "../components/SEO/DirectSEO";
+import AutoSEO from "../components/SEO/AutoSEO";
 import Header from "../components/Header";
 import { useContactModal } from "../hooks/useContactModal";
 import Footer from "../components/Footer";
@@ -9,8 +9,8 @@ const FeedbackComplaints: React.FC = () => {
   
   return (
     <>
+      <AutoSEO />
       <Header enableSticky={false} isTransparent={false} onContactUsClicked={() => openContactForm()} />
-      <DirectSEO path="/feedback-and-complaints" />
       <div
         style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 20px" }}
       >

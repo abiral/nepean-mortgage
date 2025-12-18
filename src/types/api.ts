@@ -55,7 +55,7 @@ interface IServices {
 
 interface IBankingPartnersItems {
   id: string;
-  name: string;
+  title: string;
   logo: string;
 }
 

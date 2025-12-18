@@ -1,15 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { useApi } from "./hooks/useApi";
 import { ModalProvider } from "./context/ModalContext";
 import ModalManager from "./components/ModalManager";
 import ScrollToTop from "./components/ScrollToTop";
-import LandingPage from "./LandingPage";
+import LandingPage from "./pages/LandingPage";
 import Preloader from "./components/Shared/Preloader";
 
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const WebsitePolicy = lazy(() => import("./pages/WebsitePolicy"));
 const FeedbackComplaints = lazy(() => import("./pages/FeedbackComplaints"));
+const NotFound = lazy(() => import("./pages/404"));
 
 function App() {
   const { loading, error, refreshData } = useApi();
@@ -53,23 +55,26 @@ function App() {
   }
 
   return (
-    <ModalProvider>
-      <Router>
-        <Suspense fallback={<Preloader />}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/website-policy" element={<WebsitePolicy />} />
-            <Route
-              path="/feedback-and-complaints"
-              element={<FeedbackComplaints />}
-            />
-          </Routes>
-        </Suspense>
-        <ScrollToTop />
-        <ModalManager />
-      </Router>
-    </ModalProvider>
+    <HelmetProvider>
+      <ModalProvider>
+        <Router>
+          <Suspense fallback={<Preloader />}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/website-policy" element={<WebsitePolicy />} />
+              <Route
+                path="/feedback-and-complaints"
+                element={<FeedbackComplaints />}
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+          <ScrollToTop />
+          <ModalManager />
+        </Router>
+      </ModalProvider>
+    </HelmetProvider>
   );
 }
 

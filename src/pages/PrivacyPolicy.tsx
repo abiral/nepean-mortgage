@@ -1,5 +1,5 @@
 import React from "react";
-import DirectSEO from "../components/SEO/DirectSEO";
+import AutoSEO from "../components/SEO/AutoSEO";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useContactModal } from "../hooks/useContactModal";
@@ -8,8 +8,8 @@ const PrivacyPolicy: React.FC = () => {
   const { openContactForm } = useContactModal();
   return (
     <>
+      <AutoSEO />
       <Header enableSticky={false} isTransparent={false} onContactUsClicked={() => openContactForm()} />
-      <DirectSEO path="/privacy-policy" />
       <div
         style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 20px" }}
       >

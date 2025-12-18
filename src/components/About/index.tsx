@@ -20,7 +20,7 @@ const About = ({ onContactUsClicked }: { onContactUsClicked: () => void }) => {
             </button>
           </div>
           <div className="about-visual">
-            <img src={data?.about.profile} alt={data?.name} />
+            <img src={data?.about.profile} alt={'Krishna Upadhyay, best mortgage broker in Sydney'} />
           </div>
         </div>
       </div>
