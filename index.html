@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Critical Resource Hints -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/src/main.tsx" as="script" crossorigin />
+    <link rel="preload" href="/src/index.css" as="style" />
 
     <!-- Static fallback meta tags for production -->
     <title>
@@ -60,12 +68,27 @@
     <meta name="geo.placename" content="Penrith, NSW, Australia" />
     <meta name="geo.position" content="-33.7506;150.6942" />
     <meta name="ICBM" content="-33.7506, 150.6942" />
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WBRVQS8F');</script>
+    <!-- Google Tag Manager (optimized) -->
+    <script>
+      // Initialize dataLayer early
+      window.dataLayer = window.dataLayer || [];
+      
+      // Defer GTM loading to improve initial page load
+      function loadGTM() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WBRVQS8F');
+      }
+      
+      // Load GTM after initial critical resources
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadGTM);
+      } else {
+        loadGTM();
+      }
+    </script>
     <!-- End Google Tag Manager -->
   </head>
   <body>

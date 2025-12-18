@@ -1,0 +1,95 @@
+# .htaccess configuration for Apache servers
+# Place this in your public directory root
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images - 1 year
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS and JavaScript - 1 year (with versioning)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    
+    # Web fonts - 1 year
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    
+    # HTML files - 1 hour (for dynamic content)
+    ExpiresByType text/html "access plus 1 hour"
+    
+    # JSON files - 1 day
+    ExpiresByType application/json "access plus 1 day"
+    
+    # Media files - 1 year
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/webm "access plus 1 year"
+    ExpiresByType audio/mp3 "access plus 1 year"
+    ExpiresByType audio/wav "access plus 1 year"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Enable GZIP compression
+    <filesMatch "\\.(css|js|json|xml|txt)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </filesMatch>
+    
+    <filesMatch "\\.(jpg|jpeg|png|gif|webp|svg|ico)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </filesMatch>
+    
+    <filesMatch "\\.(woff2|woff|eot|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header set Access-Control-Allow-Origin "*"
+    </filesMatch>
+    
+    # Security headers
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    
+    # Remove ETags (we're using cache-control)
+    Header unset ETag
+    FileETag None
+</IfModule>
+
+# Enable compression
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Browser caching for Vite assets
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Handle Vite asset files with hash
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^assets/.+\.(js|css|png|jpg|jpeg|gif|webp|svg|woff2|woff|ttf|eot)$ - [L,E=VITE_ASSET:1]
+    
+    # Set long cache for hashed assets
+    RewriteCond %{ENV:VITE_ASSET} ^1$
+    RewriteRule .* - [E=CACHE_CONTROL:public,max-age=31536000,immutable]
+</IfModule>

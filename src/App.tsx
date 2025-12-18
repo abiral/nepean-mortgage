@@ -2,19 +2,41 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { useApi } from "./hooks/useApi";
+import { usePerformanceOptimizations } from "./hooks/usePerformance";
 import { ModalProvider } from "./context/ModalContext";
 import ModalManager from "./components/ModalManager";
 import ScrollToTop from "./components/ScrollToTop";
+import PerformanceMonitor from "./components/PerformanceMonitor";
 import LandingPage from "./pages/LandingPage";
 import Preloader from "./components/Shared/Preloader";
 
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const WebsitePolicy = lazy(() => import("./pages/WebsitePolicy"));
-const FeedbackComplaints = lazy(() => import("./pages/FeedbackComplaints"));
-const NotFound = lazy(() => import("./pages/404"));
+// Lazy load components for better code splitting
+const PrivacyPolicy = lazy(() => 
+  import("./pages/PrivacyPolicy").then(module => ({
+    default: module.default
+  }))
+);
+const WebsitePolicy = lazy(() => 
+  import("./pages/WebsitePolicy").then(module => ({
+    default: module.default
+  }))
+);
+const FeedbackComplaints = lazy(() => 
+  import("./pages/FeedbackComplaints").then(module => ({
+    default: module.default
+  }))
+);
+const NotFound = lazy(() => 
+  import("./pages/404").then(module => ({
+    default: module.default
+  }))
+);
 
 function App() {
   const { loading, error, refreshData } = useApi();
+  
+  // Apply performance optimizations
+  usePerformanceOptimizations();
 
   if (loading) {
     return <Preloader />;
@@ -58,6 +80,7 @@ function App() {
     <HelmetProvider>
       <ModalProvider>
         <Router>
+          <PerformanceMonitor />
           <Suspense fallback={<Preloader />}>
             <Routes>
               <Route path="/" element={<LandingPage />} />

@@ -17,5 +17,37 @@ export default defineConfig(({ mode }) => {
     define: {
       __APP_ENV__: JSON.stringify(env.APP_ENV),
     },
+    build: {
+      // Optimize chunk sizes for better caching
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            router: ['react-router-dom'],
+            ui: ['framer-motion', '@fancyapps/ui'],
+          },
+        },
+      },
+      // Improve build performance
+      target: 'esnext',
+      minify: 'esbuild',
+      sourcemap: false, // Remove in production for smaller files
+    },
+    // Optimize dependencies
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'react-router-dom'],
+    },
+    // Configure server headers for development
+    server: {
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    },
+    // Configure preview server with cache headers
+    preview: {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    },
   };
 });

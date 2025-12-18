@@ -1,0 +1,32 @@
+{
+  "/": {
+    "title": "Expert Mortgage Broker Services in Nepean & Western Sydney - Nepean Mortgage",
+    "description": "Professional mortgage broker services in Nepean and Western Sydney. Expert advice on home loans, refinancing, investment property loans, and first home buyer assistance.",
+    "keywords": "mortgage broker, home loans, Nepean, Western Sydney, refinancing, investment property loans, first home buyer, mortgage advice",
+    "ogImage": "https://nepeanmortgage.com.au/images/og-facebook.jpg"
+  },
+  "/privacy-policy": {
+    "title": "Privacy Policy - Nepean Mortgage",
+    "description": "Privacy policy for Nepean Mortgage. Learn how we collect, use, and protect your personal information when using our mortgage broker services.",
+    "keywords": "privacy policy, Nepean Mortgage, personal information, mortgage broker privacy",
+    "ogImage": "https://nepeanmortgage.com.au/images/og-facebook.jpg"
+  },
+  "/website-policy": {
+    "title": "Website Policy - Nepean Mortgage", 
+    "description": "Website terms and conditions for Nepean Mortgage. Important information about using our website and mortgage broker services.",
+    "keywords": "website policy, terms and conditions, Nepean Mortgage, website terms",
+    "ogImage": "https://nepeanmortgage.com.au/images/og-facebook.jpg"
+  },
+  "/feedback-and-complaints": {
+    "title": "Feedback and Complaints - Nepean Mortgage",
+    "description": "Submit feedback or complaints about our mortgage broker services. We're committed to resolving any issues and improving our service.",
+    "keywords": "feedback, complaints, Nepean Mortgage, customer service, mortgage broker complaints",
+    "ogImage": "https://nepeanmortgage.com.au/images/og-facebook.jpg"
+  },
+  "/404": {
+    "title": "Page Not Found - Nepean Mortgage",
+    "description": "The page you're looking for cannot be found. Return to Nepean Mortgage homepage for professional mortgage broker services in Western Sydney.",
+    "keywords": "404, page not found, Nepean Mortgage, mortgage broker",
+    "ogImage": "https://nepeanmortgage.com.au/images/og-facebook.jpg"
+  }
+}
