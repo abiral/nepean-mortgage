@@ -25,6 +25,11 @@ const FeedbackComplaints = lazy(() =>
     default: module.default
   }))
 );
+const ServiceDetails = lazy(() => 
+  import("./pages/Services/ServiceDetails").then(module => ({
+    default: module.default
+  }))
+);
 const NotFound = lazy(() => 
   import("./pages/404").then(module => ({
     default: module.default
@@ -82,6 +87,7 @@ function App() {
           <Suspense fallback={<Preloader />}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
+              <Route path="/services/:serviceSlug" element={<ServiceDetails />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/website-policy" element={<WebsitePolicy />} />
               <Route
